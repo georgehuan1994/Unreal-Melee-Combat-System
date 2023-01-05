@@ -19,6 +19,10 @@
 		{
 			"Name": "OpenImageDenoise",
 			"Enabled": false
+		},
+		{
+			"Name": "DidItHit",
+			"Enabled": true
 		}
 	]
 }

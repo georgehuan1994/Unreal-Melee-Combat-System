@@ -73,17 +73,28 @@ Gameplay tag stuff.
 
 ## Actor Components
 
-### BP_CombatComponent
-
-
-
 ### BP_CollisionComponent
 
-*Collision Component* provides attack collision detection capacity for actor.
+![BP_CollisionComponent](/Users/georgehuan/GitRepo/Unreal-Melee-Combat-System/MeleeCombatSystem/Saved/Screenshots/MacEditor/BPGraphScreenshots/BP_CollisionComponent.png)
 
-#### Variables
+*Collision Component* provides attack collision detection capacity for weapon actor or character.
 
-**Public Variables**
+#### Event
+
+| Event                                     | Description                                                  |
+| ----------------------------------------- | ------------------------------------------------------------ |
+| <nobr>Set Collision Mesh Component</nobr> | Set static mesh or skeleton mesh as collision socket source. |
+| Activate Collision                        | Clear already hit actors, and enable multi sphere trace.     |
+| Deactivate Coliision                      | Disable multi sphere trace.                                  |
+| Collision Trace                           | Start multi sphere trace, call `On Hit` delegate for qualified actors. |
+
+#### Dispatchers
+
+| Dispatchers         | Input      |
+| ------------------- | ---------- |
+| <nobr>On Hit</nobr> | Hit Result |
+
+#### Public Variables
 
 | Variables                         | Type                                | Description                              |
 | --------------------------------- | ----------------------------------- | ---------------------------------------- |
@@ -95,26 +106,68 @@ Gameplay tag stuff.
 | Draw Debug Type                   | Draw Debug Type                     | Multi sphere trace *Draw Debug Type*.    |
 | <nobr>Ignore Gameplay Tags</nobr> | <nobr>Gameplay Tag Container</nobr> | Multi sphere trace ignore gameplay tags. |
 
-**Private Variables**
+#### Functions
 
-| Variables                             | Type                | Description                                                  |
-| ------------------------------------- | ------------------- | ------------------------------------------------------------ |
-| <nobr>Collision Mesh Component</nobr> | Primitive Component | The static mesh or skeleton where the collision socket are configured. |
-| Is Collision Enable?                  | Boolean             |                                                              |
+| Functions              | Description                                     |
+| ---------------------- | ----------------------------------------------- |
+| Is Collision Enabled?  | Check collision is enabled or not.              |
+| Get Already Hit Actors | Get multi sphere trace hit actors in collision. |
+| Get Last Hit Result    | Get last multi sphere trace hit result.         |
+| Get Ignore Actors      | Get ignore actors list.                         |
+| Add Ignore Actors      | Add actors to collision ignore list.            |
+| Remove Ignore Actors   | Remove actors form ignore list.                 |
+
+### BP_CombatComponent
+
+*Combat Component* is used to manage the character current main weapon, shield weapons and props.
+
+#### Public Variables
+
+| Variables    | Type    | Description                                              |
+| ------------ | ------- | -------------------------------------------------------- |
+| Attack Count | Integer | Continuous attack counter, as combo montage array index. |
 
 #### Functions
 
-| Functions | Description |
-| --------- | ----------- |
-|           |             |
-|           |             |
-|           |             |
+| Functions            | Description                                                  |
+| -------------------- | ------------------------------------------------------------ |
+| Set Main Weapon      | Set weapon as character current equipped main weapon.        |
+| Get Main Weapon      | Get character current equipped main weapon.                  |
+| Set Shield Weapon    | Set shield weapon character current equipped shield weapon.  |
+| Get Shield Weapon    | Get character current equipped shield weapon.                |
+| Set Item             | Set character current equipped item.                         |
+| Get Item             | Get character current equipped item.                         |
+| Consume Item         | Consume character current equipped item.                     |
+| Set Combat Enable    | Toggle character **Common** / **Battle** state.              |
+| Is Combat Enabled?   | Check character is in battle or not.                         |
+| Reset Attack         | Reset `Attack Count` to `0`, reset `Attack Saved` and `Wait for Attack` to `false`. |
+| Set Blocking Enable  | Toggle character **Defensive** / **Offensive** state.        |
+| Is Blocking Enabled? | Check character is blocking or not.                          |
 
+#### Dispatchers
 
+| Dispatchers                   | Input             |
+| ----------------------------- | ----------------- |
+| <nobr>On Toggle Combat</nobr> | Boolean           |
+| On Toggle Blocking            | Boolean           |
+| On Item Changed               | BP_ConsumableItem |
 
 ### BP_EquipmentComponent
 
+*Equipment Component* is character's equipment manager. 
 
+#### Public Variables
+
+| Variables           | Type                     | Description                                        |
+| ------------------- | ------------------------ | -------------------------------------------------- |
+| Starting Equipments | BP_BaseEquipment (array) | Initial equipments configuration of the character. |
+
+#### Functions
+
+| Functions              | Description |
+| ---------------------- | ----------- |
+| Initialize Equipment   |             |
+| Get Current Equipments |             |
 
 ### BP_StateManagerComponent
 
@@ -130,7 +183,7 @@ Gameplay tag stuff.
 
 ## Character Actor
 
-![截屏2023-01-20 00.05.26](/Users/georgehuan/Desktop/截屏2023-01-20 00.05.26.png)
+![BP_CombatCharacter_Base_RefView](/Users/georgehuan/Desktop/BP_CombatCharacter_Base_RefView.png)
 
 ### BP_CombatCharacter_Base
 

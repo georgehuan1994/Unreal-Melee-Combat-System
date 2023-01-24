@@ -242,6 +242,14 @@ Gameplay tag stuff.
 
 *Targeting Component* provides the ability to lock on target.
 
+#### Event
+
+| Event                        | Description                |
+| ---------------------------- | -------------------------- |
+| <nobr>Enable Lock On</nobr>  | Enable targeting.          |
+| <nobr>Disable Lock On</nobr> | Disable targeting.         |
+| <nobr>Toggle Lock On</nobr>  | Enable or disable lock on. |
+
 #### Public Variables
 
 | Variables                    | Type               | Description                            |
@@ -267,30 +275,63 @@ Gameplay tag stuff.
 | Update Rotation Mode                           | Update owner rotation mode depend on owner state.            |
 | Can Target Actor?                              | Check actor can be targeted or not.                          |
 
+#### Dispatchers
 
+| Dispatchers                       | Input |
+| --------------------------------- | ----- |
+| <nobr>On Disable Targeting</nobr> | None  |
 
 ## Character Actor
 
 ![BP_CombatCharacter_Base_RefView](/Users/georgehuan/Desktop/BP_CombatCharacter_Base_RefView.png)
 
+All the characters are inherited from `BP_CombatCharacter_Base`, which including common logic of **Player** and **AI**.
+
 ### BP_CombatCharacter_Base
 
-All the characters are inherited from `BP_CombatCharacter_Base`, which including common logic of **Player** and **AI**.
+*BP_CombatCharacter_Base* has the following custom actor components:
+
+`BP_CombatComponent`, `BP_StateManagerComponent`, `BP_StatsComponent`, `BP_TargetingComponent`, `BP_EquipmentComponent`.
+
+And implements the following interfaces:
+
+`Combat_BPI`, `GameplayTag_BPI`, `Targeting_BPI`.
 
 #### Event
 
-| Event           | Description                                |
-| --------------- | ------------------------------------------ |
-| Event BeginPlay | Initialize character stats and equipments. |
-| Event Tick      | Get delta seconds.                         |
+| Event             | Description                                |
+| ----------------- | ------------------------------------------ |
+| Event BeginPlay   | Initialize character stats and equipments. |
+| Event Tick        | Get delta seconds.                         |
+| Event PointDamage | Point damage handler.                      |
 
-#### Interfaces
+#### Input Action
 
+The following input actions are mapped only in `BP_CombatCharacter_Player`.
 
+| Event                       | Description |
+| --------------------------- | ----------- |
+| EnhancedInputAction IA_Jump |             |
+|                             |             |
 
-## Weapon Actor
+#### FSM
+
+| Event                         | Description |
+| ----------------------------- | ----------- |
+| On Character State Begin      |             |
+| On Character State End        |             |
+| On Character Action Begin     |             |
+| On Character Action End       |             |
+| On Current Stat Value Updated |             |
+
+### BP_CombatCharacter_Player
+
+### BP_MasterAI
+
+## Equippable Actor
 
 
 
 ## Animation Notifies
 
+![AnimNotifies](/Users/georgehuan/Desktop/AnimNotifies.png)

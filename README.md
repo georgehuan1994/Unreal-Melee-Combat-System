@@ -10,6 +10,8 @@ Artistic Assets
 
 ## Interfaces
 
+![Interfaces](/Users/georgehuan/Desktop/Interfaces.png)
+
 ### AnimInstance_BPI
 
 Implemented in the animation blueprint, used to update animation state machine.
@@ -72,6 +74,8 @@ Gameplay tag stuff.
 | <nobr>On Owner Landed</nobr> | Weapon owner on landed event. |
 
 ## Actor Components
+
+![ActorComponents](/Users/georgehuan/Desktop/ActorComponents.png)
 
 ### BP_CollisionComponent
 
@@ -164,20 +168,104 @@ Gameplay tag stuff.
 
 #### Functions
 
-| Functions              | Description |
-| ---------------------- | ----------- |
-| Initialize Equipment   |             |
-| Get Current Equipments |             |
+| Functions              | Description                                   |
+| ---------------------- | --------------------------------------------- |
+| Initialize Equipment   | Initialize starting equipments for character. |
+| Get Current Equipments | Get character current equipment list.         |
 
 ### BP_StateManagerComponent
 
+*State Manager Component* is used to manage the owner's states and action.
 
+#### Functions
+
+| Functions                       | Description                                                  |
+| ------------------------------- | ------------------------------------------------------------ |
+| Set Current State               | Set owner current state gameplay tag.                        |
+| Get Current State               | Get owner current state gameplay tag.                        |
+| Reset State                     | Reset owner current state gameplay tag.                      |
+| Is Current State Equal To Any?  | Check owner current state is equal to any specific gameplay tag or not. |
+| Set Current Action              | Set owner current action gameplay tag.                       |
+| Get Current Action              | Get owner current action gameplay tag.                       |
+| Is Current Action Equal To Any? | Check owner current action is equal to any specific gameplay tag or not. |
+
+#### Dispatchers
+
+| Dispatchers                            | Input        |
+| -------------------------------------- | ------------ |
+| <nobr>On Character State Begin</nobr>  | Gameplay Tag |
+| <nobr>On Character State End</nobr>    | Gameplay Tag |
+| <nobr>On Character Action Begin</nobr> | Gameplay Tag |
+| <nobr>On Character Action End</nobr>   | Gameplay Tag |
 
 ### BP_StatsComponent
 
+*Stats Component* is used to manage owner's stats value.
 
+#### Event
+
+| Event                    | Description                      |
+| ------------------------ | -------------------------------- |
+| <nobr>Start Regen</nobr> | Start regen specific stat value. |
+| <nobr>Stop Regen</nobr>  | Stop regen specific stat value.  |
+
+#### Public Variables
+
+| Variables                       | Type                                             | Description                               |
+| ------------------------------- | ------------------------------------------------ | ----------------------------------------- |
+| <nobr>Base Stats</nobr>         | <nobr>E_StatsType -> F_BaseStat (mapping)</nobr> | Owner base stats and value configuration. |
+| <nobr>Stamina Regen Rate</nobr> | Float                                            | Stamina regen rate, per 0.1 second.       |
+| Regen Delay                     | Float                                            | Stamina regen delay time, second.         |
+
+#### Functions
+
+| Functions                              | Description                                                  |
+| -------------------------------------- | ------------------------------------------------------------ |
+| Initialize Stats                       | Initialize owner stats by `Base Stats`.                      |
+| Set Base Stat Value                    | Set specific stat base value.                                |
+| Get Base Stat Value                    | Get specific stat base value.                                |
+| Set Max Stat Value                     | Set specific stat max value.                                 |
+| Get Max Stat Value                     | Get specific stat max value.                                 |
+| Set Current Stat Value                 | Set specific stat current value.                             |
+| Get Current Stat Value                 | Get specific stat current value.                             |
+| <nobr>Modify Current Stat Value</nobr> | Modify specific stat current value by delta value.           |
+| Take Damage                            | **Damage Mulitplier** = Damage / (Damage + Armor)<br/>**Reduced Damage** = Damage x Damage Mulitplier |
+| Regen Stamina                          | Regen owner current stamina value.                           |
+
+#### Dispatchers
+
+| Dispatchers                                | Input             |
+| ------------------------------------------ | ----------------- |
+| <nobr>On Current Stat Value Updated</nobr> | E_StatType, Float |
 
 ### BP_TargetingComponent
+
+*Targeting Component* provides the ability to lock on target.
+
+#### Public Variables
+
+| Variables                    | Type               | Description                            |
+| ---------------------------- | ------------------ | -------------------------------------- |
+| Target Object Type           | EObject Type Query | Object types that can be targets.      |
+| Targeting Radius             | Float              | Sphere trace *Radius*.                 |
+| Targeting Distance           | Float              | Max targeting distance.                |
+| Target Rotation Interp Speed | Float              | Lock on camera rotation RInterp speed. |
+| Default Rotation Mode        | E_RotationMode     | Orient to Movement / Orient to Camera  |
+
+#### Functions
+
+| Functions                                      | Description                                                  |
+| ---------------------------------------------- | ------------------------------------------------------------ |
+| Set Is Targeting                               | If target actor is valid, set `Is Targeting` to `true`, and send `On Targeted` message to target actor. |
+| Is Targeting?                                  | Check owner is targeting or not?                             |
+| Find Target                                    | Find closet targetable pawn as lock on target.               |
+| Set Target Actor                               | Set target actor.                                            |
+| Get Target Actor                               | Get current targeting actor.                                 |
+| <nobr>Update Targeting Control Rotation</nobr> | Update owner controller rotate to target actor.              |
+| Set Rotation Mode                              | Set rotation mode: **Orient to Movement** / **Orient to Camera**. |
+| Get Rotation Mode                              | Get owner current rotation mode.                             |
+| Update Rotation Mode                           | Update owner rotation mode depend on owner state.            |
+| Can Target Actor?                              | Check actor can be targeted or not.                          |
 
 
 

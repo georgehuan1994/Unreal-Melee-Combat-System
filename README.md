@@ -10,7 +10,7 @@ Artistic Assets
 
 ## Interfaces
 
-![Interfaces](/Users/georgehuan/Desktop/Interfaces.png)
+![Interfaces](https://george-wiki-img-bucket.oss-cn-guangzhou.aliyuncs.com/img/wiki/Interfaces.jpeg)
 
 ### AnimInstance_BPI
 
@@ -75,13 +75,13 @@ Gameplay tag stuff.
 
 ## Actor Components
 
-![ActorComponents](/Users/georgehuan/Desktop/ActorComponents.png)
+![ActorComponents](https://george-wiki-img-bucket.oss-cn-guangzhou.aliyuncs.com/img/wiki/ActorComponents.jpeg)
 
 ### BP_CollisionComponent
 
 *Collision Component* provides attack collision detection capacity for weapon actor or character.
 
-![BP_CollisionComponent](/Users/georgehuan/GitRepo/Unreal-Melee-Combat-System/MeleeCombatSystem/Saved/Screenshots/MacEditor/BPGraphScreenshots/BP_CollisionComponent.png)
+![BP_CollisionComponent](https://george-wiki-img-bucket.oss-cn-guangzhou.aliyuncs.com/img/wiki/BP_CollisionComponent.png)
 
 #### Event
 
@@ -285,7 +285,7 @@ Gameplay tag stuff.
 
 All the characters are inherited from `BP_CombatCharacter_Base`, which including common logic of **Player** and **AI**.
 
-![BP_CombatCharacter_Base_RefView](/Users/georgehuan/Desktop/BP_CombatCharacter_Base_RefView.png)
+![BP_CombatCharacter_Base_RefView](https://george-wiki-img-bucket.oss-cn-guangzhou.aliyuncs.com/img/wiki/BP_CombatCharacter_Base_RefView.jpeg)
 
 ### BP_CombatCharacter_Base
 
@@ -357,30 +357,48 @@ The following input actions are mapped only in `BP_CombatCharacter_Player`.
 
 #### Functions
 
-| Functions                  | Description |
-| -------------------------- | ----------- |
-| Can Perform Toggle Combat? |             |
-|                            |             |
+| Functions                                       | Description                                                  |
+| ----------------------------------------------- | ------------------------------------------------------------ |
+| Can Perform Toggle Combat?                      | Check character can toggle combat or not.                    |
+| Can Perform Attack?                             | Check character can perform attack or not.                   |
+| Can Perform Dodge?                              | Check character can perform dodge or not.                    |
+| Can Perform Sprinting?                          | Check character can perform sprinting or not.                |
+| Can Perform Block?                              | Check character can perform block or not.                    |
+| Can Jump?                                       | Check character can jump or not.                             |
+| Can Block Attack?                               | Check character can block attack or not.                     |
+| Set Movement Speed Mode                         | Set character current move speed.                            |
+| Get Movement Speed Mode                         | Get character current move speed.                            |
+| Get Desired Attack Type                         | Get desired attack type by character current state.          |
+| Attack                                          | Try to start attack by desired attack type (Light Attack, Heavy Attack, Falling Attack, Sprinting Attack). |
+| Charge Attack                                   | Try to start charge attack.                                  |
+| Charge Attack Timer                             | Accumulated charging time.                                   |
+| Reset Charge Attack                             | Reset charging time and relevant flags.                      |
+| Sprinting Timer                                 | Accumulated sprinting time.                                  |
+| Sprinting Stamina Cost                          | Modify sprinting stamina stat value.                         |
+| Disable Sprinting                               | Disable sprinting.                                           |
+| Enable Ragdoll                                  | Set ragdoll collision and all bodies below simulate physics. |
+| Get Hit Direction                               | Get hit direction when received damage.                      |
+| <nobr>Apply Hit Reacion Physics Velocity</nobr> | Apply ragdoll physics linear velocity.                       |
 
 ### BP_CombatCharacter_Player
 
 *CombatCharacter_Player* is child blueprint class of `BP_CombatCharacter_Base`, it add mapping enhanced input local player subsystem on *Begin Play*.
 
-![BP_CombatCharacter_Player](/Users/georgehuan/Desktop/BP_CombatCharacter_Player.png)
+![BP_CombatCharacter_Player](https://george-wiki-img-bucket.oss-cn-guangzhou.aliyuncs.com/img/wiki/BP_CombatCharacter_Player.png)
 
 ### BP_MasterAI
 
 *MasterAI* is also child blueprint class of `BP_CombatCharacter_Base`, it create the health bar widget on *Begin Play*.
 
-![BP_MasterAI_BeginPlay](/Users/georgehuan/Desktop/BP_MasterAI_BeginPlay.png)
+![BP_MasterAI_BeginPlay](https://george-wiki-img-bucket.oss-cn-guangzhou.aliyuncs.com/img/wiki/BP_MasterAI_BeginPlay.png)
 
 The head health bar when this actor on targeted by player.
 
-![BP_MasterAi_Event_OnTargeted](/Users/georgehuan/Desktop/BP_MasterAi_Event_OnTargeted.png)
+![BP_MasterAi_Event_OnTargeted](https://george-wiki-img-bucket.oss-cn-guangzhou.aliyuncs.com/img/wiki/BP_MasterAi_Event_OnTargeted.png)
 
 ## Equippable Actor
 
-![BP_BaseEquippableRefView2](/Users/georgehuan/Desktop/BP_BaseEquippableRefView2.png)
+![BP_BaseEquippableRefView2](https://george-wiki-img-bucket.oss-cn-guangzhou.aliyuncs.com/img/wiki/BP_BaseEquippableRefView2.png)
 
 ### BP_BaseEquippable
 
@@ -395,24 +413,152 @@ The head health bar when this actor on targeted by player.
 
 #### Functions
 
-| Functions     | Description                                                  |
-| ------------- | ------------------------------------------------------------ |
-| Attach Actor  | Attach actor to character mesh component.                    |
-| Get Item Mesh | Get actor *Skeletal Mesh Component* or *Static Mesh Component*. |
-|               |                                                              |
+| Functions       | Description                                                  |
+| --------------- | ------------------------------------------------------------ |
+| Attach Actor    | Attach actor to character mesh component.                    |
+| Get Item Mesh   | Get actor *Skeletal Mesh Component* or *Static Mesh Component*. |
+| On Equipped     | On actor equipped.                                           |
+| On Unequipped   | On actor unequipped.                                         |
+| Set Is Equipped | Set equipped flag.                                           |
+| Is Equipped?    | Check actor is equipped on character or not.                 |
 
 ### BP_BaseWeapon
 
+*Base Weapon* is one of `BP_BaseEquippable` child blueprint class, all weapons are created by this or inherited from this class.
+
+It has `BP_CollisionComponent` and handle the  `On Hit` event.
+
+#### Public Variables
+
+| Variables                              | Type                                         | Description                                                  |
+| -------------------------------------- | -------------------------------------------- | ------------------------------------------------------------ |
+| Combat Type                            | E_CombatType                                 | Weapon combat type (Light Sword, Great Sword, Twin Sword...) |
+| Damage Type Class                      | Damage Type (Class Ref)                      | Weapon current damage type.                                  |
+| Enter Combat                           | Anim Montage                                 | Arm weapon animation montage.                                |
+| Exit Combat                            | Anim Montage                                 | Unarm weapon animation montage.                              |
+| Hit Montage_F                          | Anim Montage                                 | Undefense hit from front animation montage.                  |
+| Hit Montage_B                          | Anim Montage                                 | Undefense hit from back animation montage.                   |
+| Hit Montage_L                          | Anim Montage                                 | Undefense hit from left animation montage.                   |
+| Hit Montage_R                          | Anim Montage                                 | Undefense hit from right animation montage.                  |
+| Defense Hit Montage                    | Anim Montage                                 | Defense hit animation montage.                               |
+| Defense Hit Broken Montage             | Anim Montage                                 | Defense hit broken animation montage.                        |
+| Knockdown Montage_F                    | Anim Montage                                 | Knockdown from front animation montage.                      |
+| Knockdown Montage_B                    | Anim Montage                                 | Knockdown from back animation montage.                       |
+| Light Attack Montages                  | Anim Montage (array)                         | Light attack animation montage array.                        |
+| Heavy Attack Montages                  | Anim Montage (array)                         | Heavy attack animation montage array.                        |
+| Charged Attack Montages                | Anim Montage (array)                         | Charged attack animation montage array.                      |
+| Falling Attack Montages                | Anim Montage (array)                         | Falling attack animation montage array.                      |
+| <nobr>Sprinting Attack Montages</nobr> | Anim Montage (array)                         | Sprinting attack animation montage array.                    |
+| Dodge Montages                         | Anim Montage (array)                         | Dodge animation montage array.                               |
+| Slide Montages                         | Anim Montage (array)                         | Slide animation montage array.                               |
+| Die Montages                           | Anim Montage (array)                         | Die animation montage array.                                 |
+| Special Attack Montages                | Anim Montage (array)                         | Special attack animation montage array.                      |
+| Damage                                 | Float                                        | Weapon current damage.                                       |
+| Action Stat Cost                       | <nobr>Gameplay Tag -> Float (Mapping)</nobr> | Each action stat value cost.                                 |
+| Action Damage Multiplier               | <nobr>Gameplay Tag -> Float (Mapping)</nobr> | Each attack action damage multiplier.                        |
+| Block Physical Damage Reduction Rate   | Float                                        | Damage reducion rate when block physics damage succeed.      |
+| Block Magic Damage Reduction Rate      | Float                                        | Damage reducion rate when block magic damage succeed.        |
+| Enable Trail FX?                       | Boolean                                      | Enable weapon attack Trail FX or not.                        |
+| Trail FX                               | Particle System                              | Weapon attack Trail FX.                                      |
+| Enable Dust FX?                        | Boolean                                      | Enable weapon attack Dust FX or not.                         |
+| Dust FX                                | Particle System                              | Weapon attack Dust FX.                                       |
+
+#### Event
+
+| Event  | Description                               |
+| ------ | ----------------------------------------- |
+| On Hit | `BP_CollisionComponent` dispatcher event. |
+
+#### Functions
+
+| Functions                | Description                                                  |
+| ------------------------ | ------------------------------------------------------------ |
+| Toggle Combat            | Call owner combat component `Set Combat Enable`.             |
+| Simulate Weapon Physics  | Let weapon start simulate physics.                           |
+| Get Stat Cost For Action | Get specify action stat cost value.                          |
+| Get Damage               | Get weapon damage.                                           |
+| On Hit                   | Check hit actor can recieve damage or not, if true, apply the damage. |
+| Get Action Montages      | Get specify action montage array.                            |
+| Activate Collision       | Call `BP_CollisionComponent` function `Activate Collision`.  |
+| Deactivate Collision     | Call `BP_CollisionComponent` function `Deactivate Collision`. |
+| Activate Trail FX        | Begin weapon particle system trail.                          |
+| Deactivate Trail FX      | End weapon particle system trail.                            |
+| Activate Dust FX         | Spawn weapon dust particle system emitter.                   |
+
 ### BP_MasterPose
+
+Character protective gear base blueprint class, inherited from `BP_BaseEquippable`, using *Leader Pose Component* (which named *Master Pose Component* in UE4).
+
+#### Public Variables
+
+| Variables  | Type  | Description                                      |
+| ---------- | ----- | ------------------------------------------------ |
+| Base Armor | Float | The base armor value provided by this equipment. |
+
+#### Functions
+
+| Functions     | Description                                                  |
+| ------------- | ------------------------------------------------------------ |
+| Attach Actor  | Attach to character skeletal mesh component and set leader pose component. |
+| On Equipped   | Override parent function and modify owner current armor stat value. |
+| On Unequipped | Override parent function and modify owner current armor stat value. |
 
 ### BP_ConsumableItem
 
+#### Public Variables
 
+| Variables         | Type                 | Description                       |
+| ----------------- | -------------------- | --------------------------------- |
+| Use Item Montages | Anim Montage (array) | Character use item montage array. |
+| Number of Used    | Integer              | The number of each consumed.      |
+| Number in Bagpack | Integer              | Initialize item number.           |
 
-### BP_PickupActor
+#### Functions
 
-
+| Functions                | Description |
+| ------------------------ | ----------- |
+| On Equipped              |             |
+| On Unequipped            |             |
+| Get Use Item Montages    |             |
+| Get Remaining Item Count |             |
+| On Item Consumed         |             |
 
 ## Animation Notifies
 
-![AnimNotifies](/Users/georgehuan/Desktop/AnimNotifies.png)
+![AnimNotifies](https://george-wiki-img-bucket.oss-cn-guangzhou.aliyuncs.com/img/wiki/AnimNotifies.png)
+
+
+
+## Behavior Tree Nodes
+
+
+
+## Gameplay Tag List
+
+```ini
++GameplayTagList=(Tag="Character.Action")
++GameplayTagList=(Tag="Character.Action.Attack")
++GameplayTagList=(Tag="Character.Action.Attack.Charged Attack")
++GameplayTagList=(Tag="Character.Action.Attack.Falling Attack")
++GameplayTagList=(Tag="Character.Action.Attack.Heavy Attack")
++GameplayTagList=(Tag="Character.Action.Attack.Light Attack")
++GameplayTagList=(Tag="Character.Action.Attack.Special Attack")
++GameplayTagList=(Tag="Character.Action.Attack.Sprinting Attack")
++GameplayTagList=(Tag="Character.Action.Die")
++GameplayTagList=(Tag="Character.Action.Dodge")
++GameplayTagList=(Tag="Character.Action.Enter Blocking")
++GameplayTagList=(Tag="Character.Action.Enter Combat")
++GameplayTagList=(Tag="Character.Action.Exit Blocking")
++GameplayTagList=(Tag="Character.Action.Exit Combat")
++GameplayTagList=(Tag="Character.Action.General Action")
++GameplayTagList=(Tag="Character.Action.Slide")
++GameplayTagList=(Tag="Character.Action.Use Item")
++GameplayTagList=(Tag="Character.Player")
++GameplayTagList=(Tag="Character.State.Attacking")
++GameplayTagList=(Tag="Character.State.Blocking")
++GameplayTagList=(Tag="Character.State.Dead")
++GameplayTagList=(Tag="Character.State.Disabled")
++GameplayTagList=(Tag="Character.State.Dodging")
++GameplayTagList=(Tag="Character.State.General Action State")
+```
+

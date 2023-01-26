@@ -79,9 +79,9 @@ Gameplay tag stuff.
 
 ### BP_CollisionComponent
 
-![BP_CollisionComponent](/Users/georgehuan/GitRepo/Unreal-Melee-Combat-System/MeleeCombatSystem/Saved/Screenshots/MacEditor/BPGraphScreenshots/BP_CollisionComponent.png)
-
 *Collision Component* provides attack collision detection capacity for weapon actor or character.
+
+![BP_CollisionComponent](/Users/georgehuan/GitRepo/Unreal-Melee-Combat-System/MeleeCombatSystem/Saved/Screenshots/MacEditor/BPGraphScreenshots/BP_CollisionComponent.png)
 
 #### Event
 
@@ -283,13 +283,13 @@ Gameplay tag stuff.
 
 ## Character Actor
 
-![BP_CombatCharacter_Base_RefView](/Users/georgehuan/Desktop/BP_CombatCharacter_Base_RefView.png)
-
 All the characters are inherited from `BP_CombatCharacter_Base`, which including common logic of **Player** and **AI**.
+
+![BP_CombatCharacter_Base_RefView](/Users/georgehuan/Desktop/BP_CombatCharacter_Base_RefView.png)
 
 ### BP_CombatCharacter_Base
 
-*BP_CombatCharacter_Base* has the following custom actor components:
+*CombatCharacter_Base* has the following custom actor components:
 
 `BP_CombatComponent`, `BP_StateManagerComponent`, `BP_StatsComponent`, `BP_TargetingComponent`, `BP_EquipmentComponent`.
 
@@ -297,38 +297,119 @@ And implements the following interfaces:
 
 `Combat_BPI`, `GameplayTag_BPI`, `Targeting_BPI`.
 
+#### Public Variables
+
+| Variables                        | Type                                | Description                                                  |
+| -------------------------------- | ----------------------------------- | ------------------------------------------------------------ |
+| Max Walking Speed                | Float                               | The character movement *Max Walking Speed* in walking state. |
+| Max Jogging Speed                | Float                               | The character movement *Max Walking Speed* in jogging state. |
+| Max Sprinting Speed              | Float                               | The character movement *Max Walking Speed* in sprinting state. |
+| Unarm Hit Montage_F              | Anim Montage                        | Hit from front montage on unarm state.                       |
+| Unarm Hit Montage_B              | Anim Montage                        | Hit from back montage on unarm state.                        |
+| Unarm Hit Montage_L              | Anim Montage                        | Hit from left montage on unarm state.                        |
+| Unarm Hit Montage_R              | Anim Montage                        | Hit from right montage on unarm state.                       |
+| Knockdown Montage_F              | Anim Montage                        | Knockdown from front montage on unarm state.                 |
+| Knockdown Montage_B              | Anim Montage                        | Knockdown from back montage on unarm state.                  |
+| <nobr>Owned Gameplay Tags</nobr> | <nobr>Gameplay Tag Container</nobr> | Character identify gameplay tags.                            |
+| Ignore Gameplay Tags             | <nobr>Gameplay Tag Container</nobr> | Character attack ignore gameplay tags which other actors owned. |
+| Pelvis Bone Name                 | Name                                | Ragdoll root bone.                                           |
+
 #### Event
 
-| Event             | Description                                |
-| ----------------- | ------------------------------------------ |
-| Event BeginPlay   | Initialize character stats and equipments. |
-| Event Tick        | Get delta seconds.                         |
-| Event PointDamage | Point damage handler.                      |
+| Event                        | Description                                               |
+| ---------------------------- | --------------------------------------------------------- |
+| Event BeginPlay              | Initialize character stats and equipments.                |
+| Event Tick                   | Get delta seconds.                                        |
+| Event PointDamage            | Point damage handler.                                     |
+| Event On Landed              | Character on landed event.                                |
+| Event Begin Rotate To Target | Start the timeline, character begin rotate to the target. |
+| Event Stop Rotate To Target  | Stop the timeline.                                        |
 
 #### Input Action
 
 The following input actions are mapped only in `BP_CombatCharacter_Player`.
 
-| Event                       | Description |
-| --------------------------- | ----------- |
-| EnhancedInputAction IA_Jump |             |
-|                             |             |
+| Event                               | Description                                     |
+| ----------------------------------- | ----------------------------------------------- |
+| EnhancedInputAction IA_Look         | Modify controller Yaw and Pitch.                |
+| EnhancedInputAction IA_Move         | Move the pawn.                                  |
+| EnhancedInputAction IA_Jump         | Jump.                                           |
+| EnhancedInputAction IA_Interact     | Interact with near actor.                       |
+| EnhancedInputAction IA_ToggleCombat | Toggle character **Common** / **Battle** state. |
+| EnhancedInputAction IA_ToggleWalk   | Toggle character **Walk** / **Jogging** state.  |
+| EnhancedInputAction IA_ToggleLock   | Toggle character targeting state.               |
+| EnhancedInputAction IA_LightAttack  | Light attack input.                             |
+| EnhancedInputAction IA_HeavyAttack  | Heavy attack input.                             |
+| EnhancedInputAction IA_Dodge        | Dodge input.                                    |
+| EnhancedInputAction IA_Sprint       | Sprint input.                                   |
+| EnhancedInputAction IA_Block        | Block input.                                    |
+| EnhancedInputAction IA_UseItem      | Use current equipment item input.               |
 
 #### FSM
 
-| Event                         | Description |
-| ----------------------------- | ----------- |
-| On Character State Begin      |             |
-| On Character State End        |             |
-| On Character Action Begin     |             |
-| On Character Action End       |             |
-| On Current Stat Value Updated |             |
+| Event                         | Description                                        |
+| ----------------------------- | -------------------------------------------------- |
+| On Character State Begin      | Called on character enter any state.               |
+| On Character State End        | Called on character exit any state.                |
+| On Character Action Begin     | Called on character start any action.              |
+| On Character Action End       | Called on character exit any action.               |
+| On Current Stat Value Updated | Called on character any stats value been modified. |
+
+#### Functions
+
+| Functions                  | Description |
+| -------------------------- | ----------- |
+| Can Perform Toggle Combat? |             |
+|                            |             |
 
 ### BP_CombatCharacter_Player
 
+*CombatCharacter_Player* is child blueprint class of `BP_CombatCharacter_Base`, it add mapping enhanced input local player subsystem on *Begin Play*.
+
+![BP_CombatCharacter_Player](/Users/georgehuan/Desktop/BP_CombatCharacter_Player.png)
+
 ### BP_MasterAI
 
+*MasterAI* is also child blueprint class of `BP_CombatCharacter_Base`, it create the health bar widget on *Begin Play*.
+
+![BP_MasterAI_BeginPlay](/Users/georgehuan/Desktop/BP_MasterAI_BeginPlay.png)
+
+The head health bar when this actor on targeted by player.
+
+![BP_MasterAi_Event_OnTargeted](/Users/georgehuan/Desktop/BP_MasterAi_Event_OnTargeted.png)
+
 ## Equippable Actor
+
+![BP_BaseEquippableRefView2](/Users/georgehuan/Desktop/BP_BaseEquippableRefView2.png)
+
+### BP_BaseEquippable
+
+*Base Equippable* is euippable actor base blueprint class, it has *Skeletal Mesh Component* and *Static Mesh Component*.
+
+#### Public Variables
+
+| Variables           | Type                   | Description                                          |
+| ------------------- | ---------------------- | ---------------------------------------------------- |
+| Attach Socket Name  | Name                   | Socket name that attach to character mesh component. |
+| Owned Gameplay Tags | Gameplay Tag Container | Identify gameplay tags.                              |
+
+#### Functions
+
+| Functions     | Description                                                  |
+| ------------- | ------------------------------------------------------------ |
+| Attach Actor  | Attach actor to character mesh component.                    |
+| Get Item Mesh | Get actor *Skeletal Mesh Component* or *Static Mesh Component*. |
+|               |                                                              |
+
+### BP_BaseWeapon
+
+### BP_MasterPose
+
+### BP_ConsumableItem
+
+
+
+### BP_PickupActor
 
 
 

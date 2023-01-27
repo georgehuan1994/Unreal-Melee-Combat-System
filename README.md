@@ -1,16 +1,14 @@
 # Unreal Melee Combat System
 
+
+
 A soulslike melee combat system on unreal by blueprint.
 
 engine version: 5.1.0
 
-
-
-Artistic Assets
-
 ## Interfaces
 
-![Interfaces](https://george-wiki-img-bucket.oss-cn-guangzhou.aliyuncs.com/img/wiki/Interfaces.jpeg)
+![Interfaces](https://gorh.cn/unreal-melee-combat-system/screenshots/Interfaces.png)
 
 ### AnimInstance_BPI
 
@@ -41,8 +39,8 @@ Implemented in the combat character actor blueprint.
 | <nobr>Continue Attack</nobr>      | Continue play combo attack montage.                          |
 | <nobr>Consume Item</nobr>         | Consume Item.                                                |
 | <nobr>Set Invincibility</nobr>    | Set character invincibility or not.                          |
-| Move To                           | Let character move to specify location in the specified time. |
-| Jump To                           | Let character jump to specify location in the specified time. |
+| Move To                           | Let character move to specify location in the input time.    |
+| Jump To                           | Let character jump to specify location in the input time.    |
 
 ### GameplayTag_BPI
 
@@ -75,13 +73,13 @@ Gameplay tag stuff.
 
 ## Actor Components
 
-![ActorComponents](https://george-wiki-img-bucket.oss-cn-guangzhou.aliyuncs.com/img/wiki/ActorComponents.jpeg)
+![ActorComponents](https://gorh.cn/unreal-melee-combat-system/screenshots/ActorComponents.png)
 
 ### BP_CollisionComponent
 
 *Collision Component* provides attack collision detection capacity for weapon actor or character.
 
-![BP_CollisionComponent](https://george-wiki-img-bucket.oss-cn-guangzhou.aliyuncs.com/img/wiki/BP_CollisionComponent.png)
+![BP_CollisionComponent](https://gorh.cn/unreal-melee-combat-system/screenshots/BP_CollisionComponent.png)
 
 #### Event
 
@@ -285,7 +283,7 @@ Gameplay tag stuff.
 
 All the characters are inherited from `BP_CombatCharacter_Base`, which including common logic of **Player** and **AI**.
 
-![BP_CombatCharacter_Base_RefView](https://george-wiki-img-bucket.oss-cn-guangzhou.aliyuncs.com/img/wiki/BP_CombatCharacter_Base_RefView.jpeg)
+![BP_CombatCharacter_Base_RefView](https://gorh.cn/unreal-melee-combat-system/screenshots/BP_CombatCharacter_Base_RefView.png)
 
 ### BP_CombatCharacter_Base
 
@@ -384,21 +382,21 @@ The following input actions are mapped only in `BP_CombatCharacter_Player`.
 
 *CombatCharacter_Player* is child blueprint class of `BP_CombatCharacter_Base`, it add mapping enhanced input local player subsystem on *Begin Play*.
 
-![BP_CombatCharacter_Player](https://george-wiki-img-bucket.oss-cn-guangzhou.aliyuncs.com/img/wiki/BP_CombatCharacter_Player.png)
+![BP_CombatCharacter_Player](https://gorh.cn/unreal-melee-combat-system/screenshots/BP_CombatCharacter_Player.png)
 
 ### BP_MasterAI
 
 *MasterAI* is also child blueprint class of `BP_CombatCharacter_Base`, it create the health bar widget on *Begin Play*.
 
-![BP_MasterAI_BeginPlay](https://george-wiki-img-bucket.oss-cn-guangzhou.aliyuncs.com/img/wiki/BP_MasterAI_BeginPlay.png)
+![BP_MasterAI_BeginPlay](https://gorh.cn/unreal-melee-combat-system/screenshots/BP_MasterAI_BeginPlay.png)
 
 The head health bar when this actor on targeted by player.
 
-![BP_MasterAi_Event_OnTargeted](https://george-wiki-img-bucket.oss-cn-guangzhou.aliyuncs.com/img/wiki/BP_MasterAi_Event_OnTargeted.png)
+![BP_MasterAi_Event_OnTargeted](https://gorh.cn/unreal-melee-combat-system/screenshots/BP_MasterAi_Event_OnTargeted.png)
 
 ## Equippable Actor
 
-![BP_BaseEquippableRefView2](https://george-wiki-img-bucket.oss-cn-guangzhou.aliyuncs.com/img/wiki/BP_BaseEquippableRefView2.png)
+![BP_BaseEquippableRefView](https://gorh.cn/unreal-melee-combat-system/screenshots/BP_BaseEquippableRefView.png)
 
 ### BP_BaseEquippable
 
@@ -507,29 +505,55 @@ Character protective gear base blueprint class, inherited from `BP_BaseEquippabl
 
 #### Public Variables
 
-| Variables         | Type                 | Description                       |
-| ----------------- | -------------------- | --------------------------------- |
-| Use Item Montages | Anim Montage (array) | Character use item montage array. |
-| Number of Used    | Integer              | The number of each consumed.      |
-| Number in Bagpack | Integer              | Initialize item number.           |
+| Variables         | Type                 | Description                                 |
+| ----------------- | -------------------- | ------------------------------------------- |
+| Use Item Montages | Anim Montage (array) | Character use item animation montage array. |
+| Number of Used    | Integer              | The number of each consumed.                |
+| Number in Bagpack | Integer              | Initialize item number.                     |
 
 #### Functions
 
-| Functions                | Description |
-| ------------------------ | ----------- |
-| On Equipped              |             |
-| On Unequipped            |             |
-| Get Use Item Montages    |             |
-| Get Remaining Item Count |             |
-| On Item Consumed         |             |
+| Functions                | Description                                                  |
+| ------------------------ | ------------------------------------------------------------ |
+| On Equipped              | Override parent function and call owner *Combat Component* `Set Item`. |
+| On Unequipped            | Override parent function and call owner *Combat Component* `Set Item` to null. |
+| Get Use Item Montages    | Return use item animation montage array.                     |
+| Get Remaining Item Count | Retrurn remaining item number in bag pack and can consumed or not. |
+| On Item Consumed         | Consume item and update reamaining count.                    |
 
 ## Animation Notifies
 
-![AnimNotifies](https://george-wiki-img-bucket.oss-cn-guangzhou.aliyuncs.com/img/wiki/AnimNotifies.png)
+![AnimNotifies](https://gorh.cn/unreal-melee-combat-system/screenshots/AnimNotifies.png)
 
+#### Notify
 
+| Notify               | Description                                                  |
+| -------------------- | ------------------------------------------------------------ |
+| AttachWeaponActor_AN | If character action animation is without control bone like *ik_hand_gun*, use this notify to attach or cancel attach character skeletal. |
+| ContinueAttack_AN    | Send message `Combat_BPI.ContinueAttack`.                    |
+| EnableLockOn_AN      | Send message `Targeting_BPI.EnableLockOn`.                   |
+| JumpToTarget_AN      | Send message `Combat_BPI.JumpTo`.                            |
+| ModifyStat_AN        | Modify receiver stat value or consume item.                  |
+| PlayCameraShake_AN   | Call `ClientStartCameraShake`, shake player camera.          |
+| ResetCombat_AN       | Send message `Combat_BPI.ResetCombat`.                       |
+| ToggleCombat_AN      | Toggle receiver combat state.                                |
+| WeaponDust_AN        | Activate receiver specify weapon Dust FX.                    |
+
+#### Notify State
+
+| Notify State        | Description                                                  |
+| ------------------- | ------------------------------------------------------------ |
+| CollisionTrace_ANS  | Enable collision detection for weapons during the state.     |
+| DisableMovement_ANS | Send message `Combat_BPI.SetMoveable`, disable owner move during the state. |
+| IFrame_ANS          | Send message `Combat_BPI.SetInvincibility`, set owner be invincibility during the state. |
+| RotateCharacter_ANS | Control receiver rotation by desire rotation during the state. |
+| WeaponTrail_ANS     | Activate receiver specify weapon Trail FX during the state.  |
 
 ## Behavior Tree Nodes
+
+![BehaviourTreeNodes](https://gorh.cn/unreal-melee-combat-system/screenshots/BehaviourTreeNodes.png)
+
+### BTService_UpdateBehavior
 
 
 
@@ -562,3 +586,4 @@ Character protective gear base blueprint class, inherited from `BP_BaseEquippabl
 +GameplayTagList=(Tag="Character.State.General Action State")
 ```
 
+## Artistic Assets

@@ -2,7 +2,7 @@
 
 
 
-A soulslike melee combat system on unreal by blueprint.
+A blueprint soulslike melee combat system on unreal.
 
 engine version: 5.1.0
 
@@ -79,7 +79,7 @@ Gameplay tag stuff.
 
 *Collision Component* provides attack collision detection capacity for weapon actor or character.
 
-![BP_CollisionComponent](https://gorh.cn/unreal-melee-combat-system/screenshots/BP_CollisionComponent.png)
+![BP_CollisionComponent](https://gorh.cn/unreal-melee-combat-system/screenshots/BP_CollisionComponent.webp)
 
 #### Event
 
@@ -555,7 +555,110 @@ Character protective gear base blueprint class, inherited from `BP_BaseEquippabl
 
 ### BTService_UpdateBehavior
 
+#### Public Variables
 
+| Variables                           | Type                                 | Description                                         |
+| ----------------------------------- | ------------------------------------ | --------------------------------------------------- |
+| Target Key                          | <nobr>Blackboard Key Selector</nobr> | Storage AI current targeting actor.                 |
+| Behavior Key                        | Blackboard Key Selector              | Storage AI current behavior as`E_AIBehavior`.       |
+| Attacking Range Key                 | Blackboard Key Selector              | Storage AI current attack range as `E_AttackRange`. |
+| Attacking Range Close               | Float                                | AI close attacking range value.                     |
+| <nobr>Attacking Range Medium</nobr> | Float                                | AI medium attacking range value.                    |
+| Attacking Range Max                 | Float                                | AI max attacking range value.                       |
+
+#### Functions
+
+| Functions           | Description                               |
+| ------------------- | ----------------------------------------- |
+| Update Behavior     | Update AI current behavior.               |
+| Set Behavior        | Set blackboard `BehaviorKey` value.       |
+| Set Attacking Range | Set blackboard `AttackingRangeKey` value. |
+
+### BTDecorator_ChanceCondition
+
+#### Public Variables
+
+| Variables         | Type    | Description                 |
+| ----------------- | ------- | --------------------------- |
+| Chance Percentage | Integer | Percentage value condition. |
+
+#### Functions
+
+| Functions                  | Description      |
+| -------------------------- | ---------------- |
+| Perform Condition Check AI | Check condition. |
+
+### BTTask_FindNextPatrolPoint
+
+![BTTask_FindNextPatrolPoint](https://gorh.cn/unreal-melee-combat-system/screenshots/BTTask_FindNextPatrolPoint.png)
+
+#### Public Variables
+
+| Variables       | Type                                 | Description                            |
+| --------------- | ------------------------------------ | -------------------------------------- |
+| Target Location | <nobr>Blackboard Key Selector</nobr> | Storage AI move target point location. |
+| Patrol Index    | Blackboard Key Selector              | Storage AI current target point index. |
+| Should Loop?    | Boolean                              | Reverse patrol index or not.           |
+
+#### Functions
+
+| Functions              | Description                                                  |
+| ---------------------- | ------------------------------------------------------------ |
+| Set Path Location      | Get patrol points by `PatrolIndex`, and set to blackboard value `TargetLocation`. |
+| Increment Patrol Index | Increment patrol index, if `ShouldLoop` is `true`, reverse patrol index. |
+| Decrement Patrol Index | Decrement patrol index, if `ShouldLoop` is `true`, reverse patrol index. |
+
+### BTTask_TryGetRandomPatrolPoint
+
+![BTTask_TryGetRandomPatrolPoint](https://gorh.cn/unreal-melee-combat-system/screenshots/BTTask_TryGetRandomPatrolPoint.png)
+
+#### Public Variables
+
+| Variables                    | Type                                 | Description                                                  |
+| ---------------------------- | ------------------------------------ | ------------------------------------------------------------ |
+| Radius                       | Float                                | Radius of the sphere centered on the current position of the actor. |
+| Query Extent                 | Vector                               | Project point to navigation query extent.                    |
+| <nobr>Target Location</nobr> | <nobr>Blackboard Key Selector</nobr> | Storage AI move target point location.                       |
+
+### BTTask_SetMovementSpeed
+
+![BTTask_SetMovementSpeed](https://gorh.cn/unreal-melee-combat-system/screenshots/BTTask_SetMovementSpeed.png)
+
+#### Public Variables
+
+| Variables      | Type  | Description           |
+| -------------- | ----- | --------------------- |
+| Movement Speed | Float | movement speed value. |
+
+### BTTask_PerformAttack
+
+![BTTask_PerformAttack](https://gorh.cn/unreal-melee-combat-system/screenshots/BTTask_PerformAttack.png)
+
+#### Public Variables
+
+| Variables                            | Type                      | Description                                                  |
+| ------------------------------------ | ------------------------- | ------------------------------------------------------------ |
+| Attack Type                          | <nobr>Gameplay Tag</nobr> | `Combat_BPI.PerformAttack` param *Attack Type*.              |
+| Attack Index                         | Integer                   | `Combat_BPI.PerformAttack` param *Attack Index*.             |
+| Random Index?                        | Boolean                   | `Combat_BPI.PerformAttack` param *Random Index*.             |
+| Play Rate                            | Float                     | `Combat_BPI.PerformAttack` param *Play Rate*.                |
+| Continue Attack?                     | Boolean                   | Continue attack flag.                                        |
+| Continue Duration                    | Float                     | Delay finish time value when `ContinueAttack` is `true`.     |
+| <nobr>Action Duration Modifer</nobr> | Float                     | Delay finish time delta value when `ContinueAttack` is `false`. |
+
+### BTTask_PerformAction
+
+![BTTask_PerformAction](https://gorh.cn/unreal-melee-combat-system/screenshots/BTTask_PerformAction.png)
+
+#### Public Variables
+
+| Variables                | Type         | Description                                           |
+| ------------------------ | ------------ | ----------------------------------------------------- |
+| Character State          | Gameplay Tag | `Combat_BPI.PerformAction` params *Character State*.  |
+| Character Action         | Gameplay Tag | `Combat_BPI.PerformAction` params *Character Action*. |
+| Montage Index            | Integer      | `Combat_BPI.PerformAction` params *Montage Index*.    |
+| Random Index?            | Boolean      | `Combat_BPI.PerformAction` params *Random Index?*.    |
+| Action Duration Modifier | Float        | Delay finish delta time value.                        |
 
 ## Gameplay Tag List
 
@@ -586,4 +689,47 @@ Character protective gear base blueprint class, inherited from `BP_BaseEquippabl
 +GameplayTagList=(Tag="Character.State.General Action State")
 ```
 
+## Enums
+
+### E_AIBehavior
+
+```c++
+enum E_AIBehavior
+{
+    Nothing    = 0    UMETA(DisplayName = "Nothing"),
+    Patrol    = 1    UMETA(DisplayName = "Patrol"),
+    Chase    = 2    UMETA(DisplayName = "Chase"),
+    Attack    = 3    UMETA(DisplayName = "Attack"),
+    Hit    = 4    UMETA(DisplayName = "Hit"),
+}
+```
+
+
+
 ## Artistic Assets
+
+### Animations
+
+[Protector in Animations - UE Marketplace](https://www.unrealengine.com/marketplace/en-US/product/protector)
+
+[Knight Zweihander in Animations - UE Marketplace](https://www.unrealengine.com/marketplace/en-US/product/knight-zweihander)
+
+[TwinSword Animset Base in Animations - UE Marketplace](https://www.unrealengine.com/marketplace/en-US/product/twinsword-animset-base)
+
+[TwinSword Animset Expansion in Animations - UE Marketplace](https://www.unrealengine.com/marketplace/en-US/product/twinsword-animset-plus)
+
+[GreatSword Animset in Animations - UE Marketplace](https://www.unrealengine.com/marketplace/en-US/product/greatsword-animset)
+
+### Characters
+
+[ESM Great Sword Knight Souls in Characters - UE Marketplace](https://www.unrealengine.com/marketplace/en-US/product/a465b32574384ffaafbc47c4473af105)
+
+[Gothic Knight in Characters - UE Marketplace](https://www.unrealengine.com/marketplace/en-US/product/2e4b2585daa7467c87c6863b0490ee6b)
+
+### Visual Effects
+
+[StylizedToonTrailFX1 in Visual Effects - UE Marketplace](https://www.unrealengine.com/marketplace/en-US/product/stylizedtoontrailfx1)
+
+### Environments
+
+[Fantasy Dungeon in Environments - UE Marketplace](https://www.unrealengine.com/marketplace/en-US/product/fantasy-dungeon)

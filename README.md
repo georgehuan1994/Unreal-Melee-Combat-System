@@ -696,17 +696,112 @@ Character protective gear base blueprint class, inherited from `BP_BaseEquippabl
 ```c++
 enum E_AIBehavior
 {
-    Nothing    = 0    UMETA(DisplayName = "Nothing"),
-    Patrol    = 1    UMETA(DisplayName = "Patrol"),
-    Chase    = 2    UMETA(DisplayName = "Chase"),
-    Attack    = 3    UMETA(DisplayName = "Attack"),
-    Hit    = 4    UMETA(DisplayName = "Hit"),
+	Nothing			= 0	UMETA(DisplayName = "Nothing"),
+	Patrol			= 1	UMETA(DisplayName = "Patrol"),
+	Chase			= 2	UMETA(DisplayName = "Chase"),
+	Attack			= 3	UMETA(DisplayName = "Attack"),
+	Hit				= 4	UMETA(DisplayName = "Hit"),
 }
 ```
 
+### E_AttackRange
 
+```c++
+enum E_AttackRange
+{
+	CloseRange		= 0	UMETA(DisplayName = "Close Range"),
+	MediumRange		= 1	UMETA(DisplayName = "MediumRange"),
+	FarRange		= 2	UMETA(DisplayName = "FarRange"),
+}
+```
+
+### E_CollisionPart
+
+```c++
+enum E_CollisionPart
+{
+	MainWeapon		= 0	UMETA(DisplayName = "Main Weapon"),
+	OffHandWeapon	= 1	UMETA(DisplayName = "Off-hand Weapon"),
+	RightHand		= 2	UMETA(DisplayName = "Right Hand"),
+	LeftHand		= 3	UMETA(DisplayName = "Left Hand"),
+	RightFoot		= 4	UMETA(DisplayName = "Right Foot"),
+	LeftFoot		= 5	UMETA(DisplayName = "Left Foot"),
+}
+```
+
+### E_CombatType
+
+```c++
+enum E_CombatType
+{
+	None			= 0	UMETA(DisplayName = "None"),
+	LightSword		= 1	UMETA(DisplayName = "Light Sword"),
+	GreatSword		= 2	UMETA(DisplayName = "Great Sword"),
+	TwinSword		= 3	UMETA(DisplayName = "Twin Sword"),
+}
+```
+
+### E_DamageType
+
+```c++
+enum E_DamageType
+{
+	None			= 0	UMETA(DisplayName = "None"),
+	MeleeDamage		= 1	UMETA(DisplayName = "Melee Damage"),
+	KnockdownDamage	= 2	UMETA(DisplayName = "Knockdown Damage"),
+}
+```
+
+### E_HitDirection
+
+```c++
+enum E_HitDirection
+{
+	Front			= 0	UMETA(DisplayName = "Front"),
+	Back			= 1	UMETA(DisplayName = "Back"),
+	Left			= 2	UMETA(DisplayName = "Left"),
+	Right			= 3	UMETA(DisplayName = "Right"),
+}
+```
+
+### E_MovementSpeedMode
+
+```c++
+enum E_MovementSpeedMode
+{
+	Walking			= 0	UMETA(DisplayName = "Walking"),
+	Jogging			= 1	UMETA(DisplayName = "Jogging"),
+	Sprinting		= 2	UMETA(DisplayName = "Sprinting"),
+}
+```
+
+### E_RotationMode
+
+```c++
+enum E_RotationMode
+{
+	OrientToCamera		= 0	UMETA(DisplayName = "OrientToCamera"),
+	OrientToMovement	= 1	UMETA(DisplayName = "OrientToMovement"),
+}
+```
+
+### E_Stats
+
+```c++
+enum E_Stats
+{
+	None			= 0	UMETA(DisplayName = "None"),
+	Health			= 1	UMETA(DisplayName = "Health"),
+	Stamina			= 2	UMETA(DisplayName = "Stamina"),
+	Armor			= 3	UMETA(DisplayName = "Armor"),
+}
+```
 
 ## Artistic Assets
+
+### GUI
+
+[GUI PRO Kit - Fantasy RPG | 2D GUI | Unity Asset Store](https://assetstore.unity.com/packages/2d/gui/gui-pro-kit-fantasy-rpg-170168)
 
 ### Animations
 

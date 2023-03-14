@@ -553,6 +553,8 @@ Character protective gear base blueprint class, inherited from `BP_BaseEquippabl
 
 ![BehaviourTreeNodes](https://gorh.cn/unreal-melee-combat-system/screenshots/BehaviourTreeNodes.png)
 
+![BT_BossEnemy_KnightSouls](https://gorh.cn/unreal-melee-combat-system/screenshots/BT_BossEnemy_KnightSouls.webp)
+
 ### BTService_UpdateBehavior
 
 #### Public Variables
